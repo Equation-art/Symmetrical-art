@@ -1,4 +1,4 @@
-from RandomMandala import random_mandala
+from PaperCutRun import random_papercut
 import matplotlib.pyplot as plt
 import matplotlib.cm
 import random
@@ -14,12 +14,12 @@ d= ["olive", "gold", "red"]
 for fc1 in [[b, b, a],[b, a, b],[a, b, b],c,d]:
     random.seed(310)
 
-    fig = random_mandala(radius=[19, 10, 6],
+    fig = random_papercut(radius=[19, 10, 6],
                          connecting_function="bezier_fill",
                          symmetric_seed=True,
                          face_color=fc1,
-                         number_of_elements=190,
-                         rotational_symmetry_order=8,
+                         radius_of_elements=190,
+                         num_of_axis=8,
                          figure=fig,
                          location=(2, 3, k))
     ax = fig.axes[-1]
