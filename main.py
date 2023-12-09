@@ -1,33 +1,30 @@
-from RandomMandala import random_mandala, figure_to_image
-import matplotlib
+from RandomMandala import random_mandala
 import matplotlib.pyplot as plt
 import matplotlib.cm
-from PIL import Image, ImageOps
-from mpl_toolkits.axes_grid1 import ImageGrid
 import random
 
+fig = matplotlib.pyplot.figure(figsize=(10, 10), dpi=120)
 
-
-fig = matplotlib.pyplot.figure(figsize=(20, 20), dpi=320)
 k = 1
-random.seed(716)
-for i in range(36):
-    rs=list(range(1,random.choice([3,4,5,6])+1))
-    rs.sort()
-    rs.reverse()
 
-    fig = random_mandala(connecting_function="bezier_fill",
-                         color_mapper=matplotlib.cm.gist_earth,
-   						 symmetric_seed=True,
-                         radius=rs,
-                         rotational_symmetry_order=random.choice([3,4,5,6,7]),
-                         number_of_elements=random.choice([2,3,4]),
+a = "0.0"
+b = "1.0"
+c = ["0.8", "0.6", "0.2"]
+d= ["olive", "gold", "red"]
+for fc1 in [[b, b, a],[b, a, b],[a, b, b],c,d]:
+    random.seed(310)
+
+    fig = random_mandala(radius=[19, 10, 6],
+                         connecting_function="bezier_fill",
+                         symmetric_seed=True,
+                         face_color=fc1,
+                         number_of_elements=190,
+                         rotational_symmetry_order=8,
                          figure=fig,
-                         location=(6, 6, k))
+                         location=(2, 3, k))
     ax = fig.axes[-1]
-    ax.set_axis_off()
+    ax.set_title(str(fc1))
     k = k + 1
 
-fig.tight_layout()
 plt.show()
 plt.close(fig)
