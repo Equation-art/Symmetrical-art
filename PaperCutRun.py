@@ -8,24 +8,24 @@ import matplotlib.figure
 import matplotlib.pyplot
 import numpy
 from PaperCut import PaperCut
-
+# 导入必要的库
 
 # ===========================================================
-# Utilities
+# 实用工具函数
 # ===========================================================
-def _is_radius_number(obj):
+def _is_radius_number(obj): # 检查对象是否为正数（浮点数或整数）
     return isinstance(obj, float) or isinstance(obj, int) and obj > 0
 
 
-def _is_radius_list(obj):
+def _is_radius_list(obj):# 检查对象是否为正数列表
     return isinstance(obj, (list, tuple)) and all([_is_radius_number(x) for x in obj])
 
 
-def _is_list_of_tuples(obj):
+def _is_list_of_tuples(obj): # 检查对象是否为元组列表
     return isinstance(obj, list) and all([isinstance(x, tuple) for x in obj])
 
 
-def _resize(obj, new_shape):
+def _resize(obj, new_shape):# 根据新的形状调整对象的大小
     if _is_list_of_tuples(obj):
         res = numpy.resize(list(range(len(obj))), new_shape)
         res = [obj[i] for i in res]
@@ -35,7 +35,7 @@ def _resize(obj, new_shape):
 
 
 # ===========================================================
-# Random papercut
+# 生成随机剪纸图案
 # ===========================================================
 def random_papercut(n_rows=1,
                    n_columns=1,
@@ -51,6 +51,7 @@ def random_papercut(n_rows=1,
                    figure: Optional[matplotlib.figure.Figure] = None,
                    location=None,
                    **kwargs):
+    # 定义一个函数用于生成随机剪纸图案
     """Generates random papercuts.
 
     If 'n_rows' and 'n_columns' are None a figure object with one axes object is returned.
@@ -107,7 +108,7 @@ def random_papercut(n_rows=1,
     :return fig: A figure (object of the class matplotlib.figure.Figure .)
     """
 
-    # Check symmetric_seed
+    # 验证 symmetric_seed 参数
     if face_color is None:
         face_color = ["0.2", "0.6", "0.8"]
     if not (isinstance(symmetric_seed, str) and symmetric_seed.lower() == "random" or
@@ -115,7 +116,7 @@ def random_papercut(n_rows=1,
         raise TypeError("""The argument 'symmetric_seed' is expected to be
              a Boolean, 'random', or None.""")
 
-    # Check num_of_axis
+    # 验证 num_of_axis 参数
     if not (isinstance(num_of_axis, str) and num_of_axis.lower() == "random" or
             isinstance(num_of_axis, (int, float)) and num_of_axis >= 1.0 or
             num_of_axis is None or
@@ -127,11 +128,11 @@ def random_papercut(n_rows=1,
     if connecting_function is None:
         local_connecting_function = "fill"
 
-    # Check radius
+    # 验证 radius 参数
     if not (_is_radius_number(radius) or _is_radius_list(radius)):
         raise TypeError("The argument 'radius' is expected to be a positive number or a list of positive numbers.")
 
-    # Check radius_of_elements
+    # 验证 radius_of_elements 参数
     if not (isinstance(radius_of_elements, str) and radius_of_elements.lower() == "automatic" or
             isinstance(radius_of_elements, int) and radius_of_elements > 0 or
             radius_of_elements is None or
@@ -141,34 +142,34 @@ def random_papercut(n_rows=1,
 
     local_radius_of_elements = "automatic" if radius_of_elements is None else radius_of_elements
 
-    # Check n_rows
+    # 验证 n_rows 参数
     if not (isinstance(n_rows, int) and n_rows > 0 or n_rows is None):
         raise TypeError("The argument 'n_rows' is expected to be a positive integer or None.")
 
-    # Check n_columns
+    # 验证 n_columns 参数
     if not (isinstance(n_columns, int) and n_columns > 0 or n_columns is None):
         raise TypeError("The argument 'n_columns' is expected to be a positive integer or None.")
 
     local_n_rows = 1 if n_rows is None else n_rows
     local_n_columns = 1 if n_columns is None else n_columns
 
-    # Check face color
+    # 验证 face color 参数
     local_face_color = face_color
     if isinstance(face_color, (list, tuple)) and _is_radius_number(radius):
         local_face_color = face_color[0]
 
-    # Check edge color
+    # 验证 edge color 参数
     local_edge_color = edge_color
     if isinstance(edge_color, (list, tuple)) and _is_radius_number(radius):
         local_edge_color = edge_color[0]
 
-    # Check alpha
+    # 验证 alpha 参数
     local_alpha = alpha
     if not (isinstance(alpha, (int, float)) and 0 <= alpha <= 1 or alpha is None):
         raise TypeError("The argument 'alpha' is expected to be a number between 0 and 1 or None.")
 
-    # Delegate
-    if figure is not None and location is not None:
+    # 根据参数生成剪纸图案
+    if figure is not None and location is not None: # 如果提供了 figure 和 location，直接在指定位置绘制剪纸图案
 
         ax = figure.add_subplot(*location)
 
@@ -194,7 +195,7 @@ def random_papercut(n_rows=1,
                        **kwargs)
 
     else:
-
+        # 如果未提供 figure 或 location，创建新的 figure 并绘制剪纸图案
         return _random_papercuts_figure(n_rows=local_n_rows,
                                        n_columns=local_n_columns,
                                        radius=radius,
@@ -210,7 +211,7 @@ def random_papercut(n_rows=1,
 
 
 # ===========================================================
-# Random papercut figure
+# 随机剪纸图案的图形
 # ===========================================================
 def _random_papercuts_figure(n_rows=None,
                             n_columns=None,
@@ -225,18 +226,19 @@ def _random_papercuts_figure(n_rows=None,
                             color_mapper: matplotlib.colors.Colormap = None,
                             **kwargs):
     """Makes a figure with random papercuts."""
-
+    # 创建一个 matplotlib 图形对象
     fig: matplotlib.pyplot.Figure = matplotlib.pyplot.figure(**kwargs)
-
+    # 遍历行和列，创建每个子图的剪纸图案
     for i in range(n_rows):
         for j in range(n_columns):
+            # 定义子图的位置
             locationSpec = (n_rows, n_columns, i * n_columns + j + 1)
 
             if isinstance(radius, (list, tuple)):
                 rm_func = _random_papercut_multi
             else:
                 rm_func = _random_papercut_single
-
+            # 调用相应函数创建剪纸图案
             rm_func(figure=fig,
                     axes=None,
                     location=locationSpec,
@@ -249,12 +251,12 @@ def _random_papercuts_figure(n_rows=None,
                     edge_color=edge_color,
                     alpha=alpha,
                     color_mapper=color_mapper)
-
+    # 返回包含剪纸图案的图形
     return fig
 
 
 # ===========================================================
-# Random papercut (multi)
+# 创建一个包含多个随机剪纸图案的图形
 # ===========================================================
 def _random_papercut_multi(figure=None,
                           axes=None,
@@ -270,36 +272,36 @@ def _random_papercut_multi(figure=None,
                           color_mapper: matplotlib.colors.Colormap = None,
                           **kwargs):
     """Makes a random multi-papercut."""
-
+    # 如果未提供 radius，则设置默认值
     if radius is None:
         radius = [6, 4, 2]
 
-    # Figure
+    # 创建或获取图形对象
     fig = figure
     if figure is None:
         # fig: matplotlib.pyplot.Figure = matplotlib.figure.Figure(**kwargs)
         fig: matplotlib.pyplot.Figure = matplotlib.pyplot.figure(**kwargs)
 
-    # Location spec
+    # 创建或获取子图位置
     locationSpec = location
     if location is None:
         locationSpec = (1, 1, 1)
 
-    # Axes spec
+    # 创建或获取子图对象
     ax = axes
     if axes is None:
         ax = fig.add_subplot(*locationSpec)
 
-    # Same length as radius sizes for the rest of the specs
+    # 为不同的半径调整 num_of_axis 参数的长度
     rotSymOrders = numpy.resize(num_of_axis, len(radius))
-
+    # 设置颜色映射器或调整颜色
     if color_mapper is None:
         faceColors = _resize(face_color, len(radius))
         edgeColors = _resize(edge_color, len(radius))
     else:
         faceColors = [color_mapper(random.random()) for i in range(len(radius))]
         edgeColors = [color_mapper(random.random()) for i in range(len(radius))]
-
+    # 遍历每个半径，创建剪纸图案
     for i in range(len(radius)):
         r = radius[i]
         fc = faceColors[i]
@@ -318,12 +320,12 @@ def _random_papercut_multi(figure=None,
                                edge_color=ec,
                                alpha=alpha,
                                color_mapper=None)
-
+    # 返回包含多个剪纸图
     return fig
 
 
 # ===========================================================
-# Random papercut (single)
+# 创建一个包含单个随机剪纸图案的图形
 # ===========================================================
 def _random_papercut_single(figure=None,
                            axes=None,
@@ -341,20 +343,20 @@ def _random_papercut_single(figure=None,
                            **kwargs):
     """Makes a random papercut."""
 
-    # Figure
+    # 创建或获取图形对象
     fig = figure
     if figure is None:
         fig: matplotlib.pyplot.Figure = matplotlib.pyplot.figure(**kwargs)
 
-    # Axes
+    # 创建或获取子图对象
     ax = axes
 
-    # Location spec
+    # 创建或获取子图位置
     locationSpec = location
     if location is None:
         locationSpec = (1, 1, 1)
 
-    # Rotational symmetry order
+    # 设置旋转对称性的顺序
     if isinstance(num_of_axis, str) and num_of_axis.lower() == "random" or \
             num_of_axis is None:
         rso = random.sample([3, 4, 5, 6, 7, 12], 1)[0]
@@ -363,40 +365,40 @@ def _random_papercut_single(figure=None,
 
     rso = rso[0] if isinstance(rso, list) else rso
 
-    # Symmetric seed
+    # 设置种子对称性
     if isinstance(symmetric_seed, str) and symmetric_seed.lower() == "random" or symmetric_seed is None:
         ssb = random.random() > 0.3
     else:
         ssb = symmetric_seed
 
-    # Number of elements
+    # 设置元素数量
     local_radius_of_elements = 6 if isinstance(radius_of_elements, str) else radius_of_elements
 
-    # Determine angle
+    # 确定角度
     angle = 2 * numpy.pi / rso
     if ssb:
         angle = angle / 2
 
-    # Generate seed
+    # 生成种子段
     rPaper = (PaperCut(figure=fig, axes=ax)
                 .make_seed_segment(radius=radius,
                                    angle=angle,
                                    radius_of_elements=local_radius_of_elements)
                 .make_seed_symmetric(ssb))
 
-    # Connection function
+    # 设置连接函数
     conFunc = connecting_function.lower()
     if conFunc == 'random':
         conFunc = random.sample(['line', 'bezier', 'fill', 'bezier_fill'], 1)[0]
 
-    # Colors
+    # 设置颜色
     local_edge_color = edge_color
     local_face_color = face_color
     if color_mapper is not None:
         local_edge_color = color_mapper(random.random())
         local_face_color = color_mapper(random.random())
 
-    # Rotate, place
+    # 根据连接函数类型旋转和放置剪纸图案
     if conFunc in {"fill", "polygon"}:
 
         rPaper.rotate_and_fill(face_color=face_color,
