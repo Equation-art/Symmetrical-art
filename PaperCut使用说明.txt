@@ -1,29 +1,24 @@
  初始化 PaperCut 对象
 首先，创建一个 PaperCut 实例。这个实例可以存储剪纸图案的所有相关信息，包括图形（figure）、坐标轴（axes）、种子点等。
-
-python
-Copy code
 papercut = PaperCut()
+
 2. 创建种子段（Seed Segment）
 使用 make_seed_segment 方法生成剪纸的种子段。这个方法通过计算给定半径和角度内的点集来创建一个基本的形状或图案。这些点将作为剪纸图案的起点。
-
-python
-Copy code
 papercut.make_seed_segment(radius=10, angle=numpy.pi/6, radius_of_elements=10)
+
+
 3. 应用对称性（可选）
 如果希望图案具有对称性，可以调用 make_seed_symmetric 方法。这个方法将种子段复制并翻转，从而在图案中创建对称效果。
-
-python
-Copy code
 papercut.make_seed_symmetric(True)
+
+
 4. 旋转和填充/绘制图案
 接下来，根据需要选择以下方法之一：
-
 rotate_and_fill: 这个方法会沿着中心点旋转种子段，并填充颜色，从而在整个图形中重复种子段形成图案。
 rotate_and_bezier: 使用贝塞尔曲线来旋转和绘制种子段，创建更加平滑和曲线型的图案。
 rotate_and_bezier_fill: 类似于 rotate_and_bezier，但在旋转的贝塞尔曲线之间填充颜色，创建填充的多边形图案。
-python
-Copy code
+
+
 papercut.rotate_and_fill(face_color="0.2", edge_color="0.2")
 # 或
 papercut.rotate_and_bezier(face_color="0.2", edge_color="0.2")
@@ -31,7 +26,4 @@ papercut.rotate_and_bezier(face_color="0.2", edge_color="0.2")
 papercut.rotate_and_bezier_fill(face_color="0.2", edge_color="0.2")
 5. 将图案转换为图像
 最后，使用 to_image 方法将 Matplotlib figure 转换为 PIL 图像。这允许将生成的剪纸图案以图像格式保存或进一步处理。
-
-python
-Copy code
 image = papercut.to_image()
