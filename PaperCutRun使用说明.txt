@@ -1,0 +1,48 @@
+1. _random_papercuts_figure
+该函数用于创建一个包含多个随机剪纸的图形（Figure）。
+
+参数:
+
+n_rows, n_columns: 分别表示图形中的行数和列数。
+radius: 剪纸的半径。
+num_of_axis: 剪纸的轴数，控制剪纸的对称性。
+connecting_function: 定义剪纸各部分如何连接。
+radius_of_elements: 控制剪纸中元素的大小。
+symmetric_seed: 是否生成对称的剪纸。
+face_color, edge_color: 剪纸的填充颜色和边缘颜色。
+alpha: 剪纸的透明度。
+color_mapper: 颜色映射器，用于生成颜色。
+逻辑:
+
+根据提供的参数创建一个新的 Matplotlib 图形（Figure）。
+使用双重循环，针对每个网格位置（由行数和列数决定），生成一个剪纸。
+根据 radius 是否为列表（多重半径），选择调用 _random_papercut_multi 或 _random_papercut_single 函数生成单个或多重剪纸。
+将生成的剪纸添加到图形中的相应位置。
+返回完整的图形。
+2. _random_papercut_multi
+该函数用于创建一个包含多重重叠的随机剪纸图案。
+
+参数: 同 _random_papercuts_figure。
+
+逻辑:
+
+如果没有指定 radius，则使用默认的半径列表 [6, 4, 2]。
+创建一个新的或使用已有的 Matplotlib 图形和子图（Axes）。
+调整 num_of_axis、face_color 和 edge_color 的长度，使其与 radius 的长度匹配。
+遍历 radius 列表，对于每个半径值，调用 _random_papercut_single 函数生成单个剪纸，并将它们重叠在一起。
+返回包含多重剪纸的图形。
+3. _random_papercut_single
+该函数用于生成单个随机剪纸图案。
+
+参数: 同上，加上 bezier_radius_factor，用于控制贝塞尔曲线的半径因子。
+
+逻辑:
+
+创建一个新的或使用已有的 Matplotlib 图形和子图。
+根据 num_of_axis 确定剪纸的对称性。
+根据 symmetric_seed 决定是否生成对称的剪纸种子图案。
+使用 PaperCut 类生成剪纸的种子图案。
+根据 connecting_function 选择剪纸部分的连接方式（如填充、线条或贝塞尔曲线）。
+应用颜色和透明度设置。
+将生成的剪纸图案放置在指定的子图中。
+返回包含单个剪纸的图形。
