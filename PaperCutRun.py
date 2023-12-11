@@ -35,8 +35,31 @@ def _resize(obj, new_shape):# 根据新的形状调整对象的大小
 
 
 # ===========================================================
-# 生成随机剪纸图案
-# ===========================================================
+#
+
+def multi_layer(
+    display_fig="0.0",
+    hide_fig="1.0",
+    display_1=None,
+    display_2=None,
+    display_3=None,
+    default_fig=None,
+    default_color=None,
+):
+    if display_1 is None:
+        display_1 = [hide_fig, hide_fig, display_fig]
+    if display_2 is None:
+        display_2 = [hide_fig, display_fig, hide_fig]
+    if display_3 is None:
+        display_3 = [display_fig, hide_fig, hide_fig]
+    if default_fig is None:
+        default_fig = ["0.8", "0.6", "0.2"]
+    if default_color is None:
+        default_color = ["#5D8AA8", "#E0E0E0", "#88B04B"]  # 海军蓝，灰色，橄榄绿
+
+    return [display_1, display_2, display_3, default_fig, default_color]
+
+
 def random_papercut(n_rows=1,
                    n_columns=1,
                    radius=1,
@@ -50,7 +73,9 @@ def random_papercut(n_rows=1,
                    color_mapper: matplotlib.colors.Colormap = None,
                    figure: Optional[matplotlib.figure.Figure] = None,
                    location=None,
-                   **kwargs):
+                   **kwargs,
+
+):
     # 定义一个函数用于生成随机剪纸图案
     """Generates random papercuts.
 
