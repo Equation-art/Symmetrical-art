@@ -124,17 +124,17 @@ class PaperCut:
     # 定义创建随机种子
     # ===========================================================
     def make_seed_segment(self,
-                          radius: float = 10.,
-                          angle=numpy.pi / 6,
+                          radius: float = 20.,
+                          angle=numpy.pi / 7,
                           radius_of_elements: int = 10,
                           keep_grid_points=False):
 
-        t1 = [radius * r * math.cos(angle) for r in numpy.arange(0, 1, 1 / radius_of_elements)]# 计算并存储每个点的 x 坐标
-        t2 = [radius * r * math.sin(angle) for r in numpy.arange(0, 1, 1 / radius_of_elements)]# 计算并存储每个点的 y 坐标
+        t1 = [5*radius * r * math.cos(angle) for r in numpy.arange(0, 1, 1 / radius_of_elements)]# 计算并存储每个点的 x 坐标
+        t2 = [5*radius * r * math.sin(angle) for r in numpy.arange(0, 1, 1 / radius_of_elements)]# 计算并存储每个点的 y 坐标
 
-        b = [(radius * r, 0) for r in numpy.arange(0, 1, 1 / radius_of_elements)]# 在基线上创建等间距点
-
-        t = list(zip(t1, t2)) + b# 将顶部和底部的点合并
+        b = [(5*radius * r, 0) for r in numpy.arange(0, 1, 1 / radius_of_elements)]# 在基线上创建等间距点
+        t=(list(t1,t2))
+        #t = list(zip(t1, t2)) + b# 将顶部和底部的点合并
         self._radius = radius# 设置类中的半径属性
         self._angle = angle# 设置类中的角度属性
         self._keep_grid_points = keep_grid_points# 设置是否保持网格点
