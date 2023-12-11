@@ -152,7 +152,7 @@
 引用
 ------------------
 
-对于使用``贝塞尔``的出版物，可以引用 `JOSS paper`_ 。可使用下述BibTeX条目：
+对于使用 ``贝塞尔`` 的出版物，可以引用 `JOSS paper`_ 。可使用下述BibTeX条目：
 
 .. code-block:: rest
 
@@ -176,7 +176,7 @@
 .. _list by version: https://zenodo.org/search?page=1&size=20&q=conceptrecid:%22838307%22&sort=-version&all_versions=True
 
 许可
----
+------------------
 
 ``贝塞尔`` 在 Apache 2.0许可下可使用。 查看 `the LICENSE`_ 获取更多细节信息。
 
