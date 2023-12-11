@@ -10,7 +10,7 @@ import random
 
 fig = matplotlib.pyplot.figure(figsize=(20, 20), dpi=320)
 k = 1
-random.seed(716)
+random.seed(71)
 for i in range(36):
     rs=list(range(1,random.choice([3,4,5,6])+1))
     rs.sort()
