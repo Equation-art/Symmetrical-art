@@ -42,12 +42,12 @@
    :align: center
 
 可以通过考虑三个、四个等等，将其推广到更高阶。
-权重和为1的非负权重（在上述式子中我们有两个非负权重``s`` 和 ``1-s``）。
+权重和为1的非负权重（在上述式子中我们有两个非负权重 ``s`` 和 ``1-s``）。
 
 由于它们形式简单，贝塞尔曲线：
 
 * 很容易将几何对象建模为参数曲线，三角形，等等；
-* 可以通过`de Casteljau's algorithm`_(德卡斯特里奥算法)进行高效且数值稳定的计算；
+* 可以通过 `de Casteljau's algorithm`_ (德卡斯特里奥算法)进行高效且数值稳定的计算；
 
 * 可以将凸优化技术运用于多种算法（例如：曲线-曲线相交），因为曲线（或三角形等）是这个原理的凸组合
 
@@ -67,7 +67,7 @@
 安装
 ------------------
 
-``贝塞尔``Python 安装包可以通过 `pip`_ 安装：
+``贝塞尔`` Python 安装包可以通过 `pip`_ 安装：
 
 .. code-block:: console
 
@@ -83,7 +83,7 @@
    $ BEZIER_NO_EXTENSION=true \
    >   python   -m pip install --upgrade bezier --no-binary=bezier
 
-``贝塞尔``是开源的，所以你可以从 `Github`_ 中获取代码并从源码中安装。
+``贝塞尔`` 是开源的，所以你可以从 `Github`_ 中获取代码并从源码中安装。
 
 .. _pip: https://pip.pypa.io
 .. _GitHub: https://github.com/dhermes/bezier/
@@ -170,7 +170,7 @@
      journal = {The Journal of Open Source Software}
    }
 
-该库的一个**特定**版本可以通过Zenodo DOI引用；查看完整的 `list by version`_ 。
+该库的一个 **特定** 版本可以通过Zenodo DOI引用；查看完整的 `list by version`_ 。
 
 .. _JOSS paper: https://joss.theoj.org/papers/10.21105/joss.00267
 .. _list by version: https://zenodo.org/search?page=1&size=20&q=conceptrecid:%22838307%22&sort=-version&all_versions=True
@@ -178,7 +178,7 @@
 许可
 ---
 
-``贝塞尔``在 Apache 2.0许可下可使用。 查看 `the LICENSE`_ 获取更多细节信息。
+``贝塞尔`` 在 Apache 2.0许可下可使用。 查看 `the LICENSE`_ 获取更多细节信息。
 
 
 .. _Curves: https://bezier.readthedocs.io/en/latest/python/reference/bezier.curve.html
