@@ -23,7 +23,7 @@
    :align: center
 
 为什么是贝塞尔？
---------------------
+------------------
 
 贝塞尔曲线（和三角形，等等）是一个使用伯恩斯坦原理的参数曲线：
 
@@ -65,7 +65,8 @@
 .. _NURBS: https://en.wikipedia.org/wiki/Non-uniform_rational_B-spline
 
 安装
----
+------------------
+
 ``贝塞尔``Python 安装包可以通过 `pip`_ 安装：
 
 .. code-block:: console
@@ -88,7 +89,7 @@
 .. _GitHub: https://github.com/dhermes/bezier/
 
 入门
----
+------------------
 
 例如，创建一个曲线：
 
@@ -144,12 +145,12 @@
 想要API-level文件，请查询贝塞尔Python `package`_ 文件。
 
 开发
----
+------------------
 
 如果想要添加功能或者运行功能测试，请查看 `DEVELOPMENT doc`_ 以获取更多关于如何开始的信息。
 
 引用
----
+------------------
 
 对于使用``贝塞尔``的出版物，可以引用 `JOSS paper`_ 。可使用下述BibTeX条目：
 
