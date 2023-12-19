@@ -5,7 +5,7 @@ import random
 import matplotlib.style as mplstyle
 mplstyle.use('fast')
 
-seed = 330
+seed = 1008017478903727995614313778791697005760
 
 fig_small = plt.figure(figsize=(10, 10), dpi=120)
 fig_large = plt.figure(figsize=(10, 50), dpi=120)
@@ -18,12 +18,12 @@ for fc1 in [display_1, display_2, display_3, default_fig, default_color]:
     fig = plt.figure(figsize=(10, 10), dpi=120)
     # 使用 random_papercut 创建图案
     random.seed(seed)
-    fig = random_papercut(radius=[19, 10, 6],
+    fig = random_papercut(radius=[150, 120, 90],
                           connecting_function="bezier-fill",
                           symmetric_seed=True,
                           face_color=fc1,
-                          radius_of_elements=19,
-                          num_of_axis=8,
+                          radius_of_elements=9,
+                          num_of_axis=6,
                           figure=fig,
                           location=(1, 1, 1))  # (列，行，第几个)
 
@@ -34,14 +34,15 @@ for fc1 in [display_1, display_2, display_3, default_fig, default_color]:
     # 显示图形
     plt.show()
     plt.close()
+    fig.savefig('temp{}.svg'.format(fc1), transparent=True)
 for fc1 in [display_1, display_2, display_3, default_fig, default_color]:
     random.seed(seed)
     fig_large = random_papercut(radius=[19, 10, 6],
-                                connecting_function="bezier-fill",
+                                connecting_function="line",
                                 symmetric_seed=True,
                                 face_color=fc1,
                                 radius_of_elements=19,
-                                num_of_axis=8,
+                                num_of_axis=4,
                                 figure=fig_large,
                                 location=(5, 1, k))
     ax_large = fig_large.axes[-1]
