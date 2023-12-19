@@ -1,10 +1,8 @@
 """
-Author: Noeloikeau Charlot 2023
+original Author: Noeloikeau Charlot 2023
 
 License: Creative Commons ► Attribution 3.0 Unported ► CC BY 3.0
 https://creativecommons.org/licenses/...
-"You are free to use, remix, transform, and build upon the material
-for any purpose, even commercially. You must give appropriate credit."
 """
 
 import matplotlib.pyplot as plt
