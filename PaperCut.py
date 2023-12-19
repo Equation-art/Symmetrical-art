@@ -125,17 +125,27 @@ class PaperCut:
     # ===========================================================
     def make_seed_segment(self,
                           radius: float = 20.,
-                          angle=numpy.pi / 7,
+                          angle=numpy.pi / 4,
                           radius_of_elements: int = 10,
                           keep_grid_points=False):
 
         t1 = [5*radius * r * math.cos(angle) for r in numpy.arange(0, 1, 1 / radius_of_elements)]# 计算并存储每个点的 x 坐标
         t2 = [5*radius * r * math.sin(angle) for r in numpy.arange(0, 1, 1 / radius_of_elements)]# 计算并存储每个点的 y 坐标
+        '''
+        numpy.arange(0, 1, 1 / radius_of_elements): 这个函数创建一个数值范围从0到1，步长为 1 / radius_of_elements 的数组。它表示后续计算中的变量 'r'。
+        5 * radius * r * math.cos(angle): 这是用于计算一个点的 x 坐标的公式。它涉及到半径、当前 'r' 的值，以及角度的余弦值（可能在你的代码的其他地方定义为 'angle'）。
+        列表推导式 [5 * radius * r * math.cos(angle) for r in numpy.arange(0, 1, 1 / radius_of_elements)]: 
+        这通过迭代由 numpy.arange 生成的数组中的每个 'r' 值构建一个列表。对于每个 'r'，它使用指定的公式计算相应的 x 坐标。
+        '''
 
         b = [(5*radius * r, 0) for r in numpy.arange(0, 1, 1 / radius_of_elements)]# 在基线上创建等间距点
 
         t = list(zip(t1, t2)) + b# 将顶部和底部的点合并
         self._radius = radius# 设置类中的半径属性
+        #在Python中，self 是对类实例的引用。它是类中实例方法的第一个参数，表示对象实例本身。
+        #_radius：这是类的实例变量。变量名前的下划线（_radius）通常表示这是一个内部变量，建议在类外部不直接访问。
+        #radius：这是要赋给 _radius 变量的值。通常，radius 是一个传递给类构造函数或其他方法的参数。
+        #self._radius = radius 这行代码的作用是将类实例的 _radius 变量设置为传入的 radius 值。这是在对象创建过程中或对象生命周期中初始化或更新对象状态的常见操作。
         self._angle = angle# 设置类中的角度属性
         self._keep_grid_points = keep_grid_points# 设置是否保持网格点
         self._seed_points = random.sample(t, len(t))# 从所有点中随机选择，形成种子点集
@@ -149,18 +159,31 @@ class PaperCut:
     # 定义创建对称种子段的方法
     # ===========================================================
     def make_seed_symmetric(self, arg=None):
-        if isinstance(arg, bool) and not arg:
+        #这是一个方法的定义，名为 make_seed_symmetric。它接受一个参数 arg，默认值为 None。该方法似乎属于某个类，因为它有 self 参数，表示它是一个实例方法。
+        if isinstance(arg, bool) and not arg:# 这一行检查参数 arg 是否为布尔类型且为 False。
+            # 如果是，它直接返回当前实例 self，即返回调用这个方法的对象。
+            # 这是为了提供一种选择，让用户可以选择是否执行对称性操作。
             return self
         self._sym_seed_points = [(x[0], -x[1]) for x in self._seed_points]# 创建对称种子点
+        #这一行创建了对称的种子点。它通过对 _seed_points 中的每个点 (x[0], x[1]) 进行处理，
+        # 创建一个新的点 (x[0], -x[1])，
+        # 将其添加到 _sym_seed_points 列表中。
+        # 这样就获得了关于 x 轴对称的点集。
         self._symmetric = True# 设置对称性为 True
+        #这一行将实例变量 _symmetric 设置为 True，表示对象现在是对称的。
         self._value = self._sym_seed_points# 将对称种子点设为当前值
+        #这一行将对象的 _value 属性设置为对称种子点 _sym_seed_points。存在类中。
         return self
 
     # ===========================================================
     # 定义将点转换为贝塞尔曲线节点的方法
     # ===========================================================
     def to_nodes(self, points):
+        #它接受一个参数 ，points点集。
         nodes = numpy.array(points).transpose()# 转换并转置点集为 numpy 数组
+        #这一行将传入的点集 points 转换成一个 NumPy 数组，
+        # 并进行转置操作。numpy.array(points) 将点集转换为 NumPy 数组，
+        # 然后 transpose() 方法对数组进行转置操作，即交换行和列。
         self._value = nodes# 将节点设为当前值
         return self
 
@@ -169,8 +192,13 @@ class PaperCut:
     # ===========================================================
     def to_bezier_curve(self, points):
         nodes = numpy.array(points).transpose()# 转换并转置点集为 numpy 数组
-
+        # 这一行将传入的点集 points 转换成一个 NumPy 数组，
+        # 并进行转置操作。numpy.array(points)
+        # 将点集转换为 NumPy 数组，然后 transpose() 方法对数组进行转置操作，即交换行和列。
         curve = bezier.Curve.from_nodes(nodes)# 从节点创建贝塞尔曲线
+        # 这一行使用 bezier 模块的 Curve.from_nodes 方法，
+        # 从转置后的节点数组 nodes 创建一个贝塞尔曲线对象，
+        # 并将其赋值给变量 curve。
         self._value = curve # 将贝塞尔曲线设为当前值
         return self
 
@@ -238,19 +266,20 @@ class PaperCut:
     # ===========================================================
     # Rotate and bezier
     # ===========================================================
+    # 这是一个方法的定义，名为 rotate_and_fill。它接受一些可选参数，
     def rotate_and_bezier(self,
                           face_color="0.2",
-                          edge_color="0.2",
+                          edge_color="0.2",# 、edge_color（边缘颜色）、
                           alpha=None,
-                          location=111,
-                          ax=None):
-        # Make figure and axes
+                          location=111, # location（子图位置）
+                          ax=None):# 和 ax（轴对象）。
+        #
         if ax is None:# 如果没有提供轴
             if self._figure is None:# 如果没有现有的图形
                 fig, local_ax = matplotlib.pyplot.subplots()# 创建新的图形和轴
             else:
                 fig = self._figure# 使用现有的图形
-                if isinstance(location, tuple):# 如果位置是元组形式
+                if isinstance(location, tuple):# 子图的位置由 location 参数指定，可以是一个整数或一个元组。
                     local_ax = fig.add_subplot(*location)# 创建子图
                 else:
                     local_ax = fig.add_subplot(location)# 创建子图
@@ -258,21 +287,21 @@ class PaperCut:
             local_ax = ax# 使用提供的轴
             fig = self._figure# 使用现有的图形
 
-        # Determine rotation angle and seed nodes
+
         my_angle = self._angle# 获取旋转角度
         nodes = numpy.array(self._seed_points).transpose()# 获取种子节点
-
+        # 这一行将节点转换为 NumPy 数组并进行转置操作。
         if self._symmetric: # 如果是对称模式
             my_angle = 2 * my_angle# 旋转角度翻倍
 
-        # Rotation matrix
-        rotMat = [[math.cos(my_angle), -math.sin(my_angle)], [math.sin(my_angle), math.cos(my_angle)]]# 创建旋转矩阵
 
-        # First nodes and plot
+        rotMat = [[math.cos(my_angle), -math.sin(my_angle)], [math.sin(my_angle), math.cos(my_angle)]]# 创建旋转矩阵
+        #这一行定义了旋转矩阵 rotMat，用于旋转节点。
+
         curve = bezier.Curve.from_nodes(nodes)# 从节点创建贝塞尔曲线
         _ = curve.plot(num_pts=256, color=edge_color, ax=local_ax)# 绘制贝塞尔曲线
 
-        # Incremental rotation and plotting
+
         for i in range(1, math.floor(2 * numpy.pi / my_angle)):# 对于每次旋转
             nodes = numpy.dot(rotMat, nodes)# 应用旋转矩阵
             curve = bezier.Curve.from_nodes(nodes)# 从旋转后的节点创建新的贝塞尔曲线
@@ -299,7 +328,7 @@ class PaperCut:
                 if isinstance(item, PathPatch):# 如果是路径补丁
                     item.set_alpha(alpha)# 设置透明度
 
-        # Set figure, axes, value
+
         self._figure = fig# 保存图形
         self._axes = local_ax# 保存轴
         self._value = local_ax# 保存轴的值
@@ -307,17 +336,17 @@ class PaperCut:
         return self
 
     # ===========================================================
-    # Rotate and fill bezier polygon
+    # 旋转填充bezier曲线
     # ===========================================================
     def rotate_and_bezier_fill(self,
-                               face_color=(0.01, 0.01, 0.01),
-                               edge_color=(0.01, 0.01, 0.01),
-                               pts_per_edge=24,
-                               alpha=None,
-                               location=111,
-                               ax=None):
+                               face_color=(0.01, 0.01, 0.01),#填充颜色
+                               edge_color=(0.01, 0.01, 0.01),#边缘颜色
+                               pts_per_edge=24,#每边的点数
+                               alpha=None,#透明度
+                               location=111,#子图位置
+                               ax=None):#轴对象
 
-        # Make figure and axes
+        #
         if ax is None:# 如果没有提供轴
             if self._figure is None:# 如果没有现有的图形
                 fig, local_ax = matplotlib.pyplot.subplots()# 创建新的图形和轴
@@ -331,7 +360,7 @@ class PaperCut:
             fig = self._figure# 使用现有的图形
             local_ax = ax# 使用提供的轴
 
-        # Determine rotation angle and seed nodes
+
         my_angle = self._angle# 获取旋转角度
         if self._symmetric:# 如果是对称模式
             my_angle = 2 * my_angle# 旋转角度翻倍
@@ -347,17 +376,17 @@ class PaperCut:
                                      self._seed_points[0]]).transpose()# 创建连接的节点
 
 
-        # Rotation matrix
+        # 同上
         rotMat = [[math.cos(my_angle), -math.sin(my_angle)], [math.sin(my_angle), math.cos(my_angle)]]# 创建旋转矩阵
 
-        # First nodes and plot
+
         curve1 = bezier.Curve.from_nodes(nodes1)# 从第一组节点创建贝塞尔曲线
         curve1con = bezier.Curve.from_nodes(nodes1con)# 从连接的节点创建贝塞尔曲线
         curved_poly = bezier.CurvedPolygon(curve1, curve1con)# 定义一个 CurvedPolygon 对象，使用提供的曲线和控制点。
 
         _ = curved_poly.plot(pts_per_edge=pts_per_edge, ax=local_ax, color=face_color) # 绘制曲线多边形
 
-        # Incremental rotation and plotting
+        # 迭代的旋转和绘制操作
         for i in range(1, math.floor(2 * numpy.pi / my_angle)):# 对于每次旋转
             nodes1 = numpy.dot(rotMat, nodes1)# 应用旋转矩阵
             nodes1con = numpy.dot(rotMat, nodes1con)# 应用旋转矩阵
@@ -366,13 +395,15 @@ class PaperCut:
             curved_poly = bezier.CurvedPolygon(curve1, curve1con)# 定义一个 CurvedPolygon 对象，使用提供的曲线和控制点。
             _ = curved_poly.plot(pts_per_edge=pts_per_edge, ax=local_ax, color=face_color)# 使用指定数量的点每边和颜色绘制 CurvedPolygon。
 
-        if self._symmetric:# 检查曼德拉是否对称。
+        if self._symmetric:# 检查剪纸是否对称。
+            #如果属性 _symmetric 为 True，表示当前剪纸对象是对称的。以下是代码的执行流程：
             self._figure = fig  # 存储当前的图形和坐标轴。
+            #将当前图形和坐标轴保存在对象的属性中，以便在对称处理后恢复使用。
             self._axes = local_ax
-            self._symmetric = False# 禁用对称性以进行进一步处理。
-            self._angle = 2 * self._angle # 将角度翻倍以进行旋转。
+            self._symmetric = False# 禁用对称性以进行进一步处理。这样在进一步处理时就不会再应用对称操作。
+            self._angle = 2 * self._angle # 将角度翻倍以进行旋转。这是因为对称操作通常会将对象旋转出两个身位，以便翻折（这个对称后的对象需要再进行一次旋转。）
             self._sym_seed_points, self._seed_points = self._seed_points, self._sym_seed_points # 交换用于对称的种子点。
-            # 旋转曼德拉并填充颜色。
+            # 旋转剪纸并填充颜色。
             self.rotate_and_bezier_fill(face_color=face_color,
                                         edge_color=edge_color,
                                         pts_per_edge=pts_per_edge,
@@ -412,7 +443,7 @@ class PaperCut:
     # ===========================================================
     def to_image(self):
         if not isinstance(self._figure, matplotlib.pyplot.Figure):
-            raise AttributeError("对象中没有图形。")
+            raise AttributeError("没有图形。")
 
         return figure_to_image(self._figure)
 
