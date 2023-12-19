@@ -479,7 +479,7 @@ def _random_papercut_single(figure=None,
                                         ax=ax)
 
     else:
-        raise TypeError("""The argument 'connecting_function' is expected to be one of 
+        raise TypeError("""参数只能在下面选
         'fill', 'line', 'bezier', 'bezier_fill', 'random', or None.""")
 
     return fig
