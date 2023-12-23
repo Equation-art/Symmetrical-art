@@ -5,7 +5,7 @@ import random
 import matplotlib.style as mplstyle
 mplstyle.use('fast')
 
-seed = 1008017478903727995614313778791697005760
+seed = 10747890316970060
 
 fig_small = plt.figure(figsize=(10, 10), dpi=120)
 fig_large = plt.figure(figsize=(10, 50), dpi=120)
@@ -13,7 +13,7 @@ k = 1
 
 display_1, display_2, display_3, default_fig, default_color = multi_layer()
 
-for fc1 in [display_1, display_2, display_3, default_fig, default_color]:
+for fc1 in [display_1, display_2, display_3, default_fig, default_color,["olive", "gold", "red"]]:
     # 为每个 fc1 创建一个新的 Figure 对象
     fig = plt.figure(figsize=(10, 10), dpi=120)
     # 使用 random_papercut 创建图案
@@ -29,7 +29,7 @@ for fc1 in [display_1, display_2, display_3, default_fig, default_color]:
 
     # 设置图形的标题
     ax = fig.axes[-1]
-    ax.set_title(str(fc1))
+    #ax.set_title(str(fc1))
 
     # 显示图形
     plt.show()
@@ -38,7 +38,7 @@ for fc1 in [display_1, display_2, display_3, default_fig, default_color]:
 for fc1 in [display_1, display_2, display_3, default_fig, default_color]:
     random.seed(seed)
     fig_large = random_papercut(radius=[19, 10, 6],
-                                connecting_function="line",
+                                connecting_function="random",
                                 symmetric_seed=True,
                                 face_color=fc1,
                                 radius_of_elements=19,

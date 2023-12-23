@@ -100,6 +100,9 @@ class SeedGenerator:
 # 示例用法
 seed_generator = SeedGenerator()
 seed_generator.make_seed_segment()
+#可以自由注释下面三行任意一行玩一玩
 seed_generator.make_seed_symmetric()
+seed_generator.to_nodes(seed_generator._value)
+seed_generator.to_bezier_curve(seed_generator._value)
 seed_generator.rotate_and_fill(face_color="0.8", edge_color="0.2", location=111)
 plt.show()
